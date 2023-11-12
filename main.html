@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assignment</title>
+    <style>
+        body {
+            background-color: white;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            text-align: end;
+        }
+
+        .img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h1>제주과학고 인지 수행평가</h1>
+        <h2>이세호, 김아영</h2>
+    </div>
+    <br>
+    <h1>
+        외출 및 귀가 시 버튼을 눌러주세요
+    </h1>
+    <div class="img">
+        <img src="way out.jpg" alt="외출"
+            onclick="event.preventDefault(); alert('외출'); console.log('외출'); sendData('외출'); displayDateTime();"
+            style="width: 500px; height: 450px;">
+        <img src="come in.jpg" alt="귀가"
+            onclick="event.preventDefault(); alert('귀가'); console.log('귀가'); sendData('귀가'); displayDateTime();"
+            style="width: 500px; height: 450px;">
+
+        <script language="JavaScript">
+            function displayDateTime() {
+                let today = new Date();
+                let year = today.getFullYear();
+                let month = today.getMonth() + 1;
+                let date = today.getDate();
+                let hours = today.getHours();
+                let minutes = today.getMinutes();
+                console.log(year + '/' + month + '/' + date + ' ' + hours + ':' + minutes);
+                return year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
+            }
+            window.displayDateTime = displayDateTime;
+
+            function sendData(message) {
+                let dateTime = displayDateTime();
+                let data = {
+                    message: message,
+                    time: dateTime
+                };
+
+                fetch(`http://localhost:80/?message=${data.message}&time=${data.time}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            }
+        </script>
+
+    </div>
+</body>
+
+</html>
